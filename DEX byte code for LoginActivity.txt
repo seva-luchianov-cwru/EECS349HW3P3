@@ -1,0 +1,99 @@
+.method private attemptLogin(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/Boolean;
+    .registers 7
+    .param p1, "Username"    # Ljava/lang/String;
+    .param p2, "Password"    # Ljava/lang/String;
+
+    .prologue
+    .line 69
+    const/4 v0, 0x1 // Starting value of X
+
+    .line 70
+    .local v0, "X":I // Instantiate int X to 1
+    new-instance v2, Ljava/lang/StringBuilder;
+
+    invoke-direct {v2}, Ljava/lang/StringBuilder;-><init>()V
+
+    invoke-virtual {v2, p1}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    const-string v3, "@CS493" // Append "@CS493" to Username String
+
+    invoke-virtual {v2, v3}, Ljava/lang/StringBuilder;->append(Ljava/lang/String;)Ljava/lang/StringBuilder;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/StringBuilder;->toString()Ljava/lang/String;
+
+    move-result-object p1
+
+    .line 71
+    const/4 v1, 0x0 // Starting value of i = 0
+
+    .local v1, "i":I // Instantiate i to 0
+    :goto_15
+    invoke-virtual {p1}, Ljava/lang/String;->length()I // Get the length of the Username String
+
+    move-result v2
+
+    if-ge v1, v2, :cond_28 // This is the end condition of the loop, once i >= Username.length()
+
+    .line 73
+    invoke-virtual {p1, v1}, Ljava/lang/String;->charAt(I)C // Get the char at index i from String Username
+
+    move-result v2
+
+    mul-int/2addr v2, v0 // Multiple that char by X
+
+    const v3, 0xbc614e    # 1.729998E-38f // Instantiate 12345678
+
+    rem-int v0, v2, v3 // X = Result of (char * x) % 12345678
+
+    .line 71
+    add-int/lit8 v1, v1, 0x1 // i++
+
+    goto :goto_15
+
+    .line 77
+    :cond_28
+    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+
+    move-result-object v2
+
+    invoke-virtual {v2}, Ljava/lang/Integer;->toString()Ljava/lang/String;
+
+    move-result-object v2
+
+    invoke-virtual {p2, v2}, Ljava/lang/String;->equals(Ljava/lang/Object;)Z
+
+    move-result v2 // The above is just casting X to a String
+
+    if-eqz v2, :cond_43 // Compare String value of X to Password, if equal, then Success!
+
+    .line 78
+    iget-object v2, p0, Lcom/example/cs493/homework/LoginActivity;->Result:Landroid/widget/TextView;
+
+    const-string v3, "Success!"
+
+    invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    .line 81
+    :goto_3d
+    const/4 v2, 0x0
+
+    invoke-static {v2}, Ljava/lang/Boolean;->valueOf(Z)Ljava/lang/Boolean;
+
+    move-result-object v2
+
+    return-object v2
+
+    .line 80
+    :cond_43
+    iget-object v2, p0, Lcom/example/cs493/homework/LoginActivity;->Result:Landroid/widget/TextView;
+
+    const-string v3, "Wrong Password!"
+
+    invoke-virtual {v2, v3}, Landroid/widget/TextView;->setText(Ljava/lang/CharSequence;)V
+
+    goto :goto_3d
+.end method
