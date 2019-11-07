@@ -21,8 +21,11 @@ From there I was able to deduce the following:
 1. The entered username gets the string "@CS493" appended to the end
 2. A variable X is instantated and starts at 1
 3. We iterate over each charactor of the username (using iterator i) and set a variable X to the result of the following:
+
     X = (username.charAt(i) * X) % 12345678
-The decimal value 12345678 is found by converting 0xbc614e from HEX to Decimal
+
+    The decimal value 12345678 is found by converting 0xbc614e from HEX to Decimal
+
 The password is equal to the string value of X once the loop finishes.
 
 For Username "Seva", the password is "11278224"
